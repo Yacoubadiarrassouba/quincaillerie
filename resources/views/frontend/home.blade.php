@@ -84,28 +84,27 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
+
         <div class="collapse navbar-collapse" id="navbarContent">
 
             <!-- SEARCH -->
             <form action="/" method="GET"
-                  class="d-flex mx-lg-auto my-2 my-lg-0 w-100 w-lg-50">
+                class="d-flex mx-lg-auto my-2 my-lg-0 w-100 w-lg-50 flex-grow-1">
                 <input class="form-control me-2"
-                       type="search"
-                       name="search"
-                       placeholder="Rechercher un outil..."
-                       value="{{ request('search') }}">
+                    type="search"
+                    name="search"
+                    placeholder="Rechercher un outil..."
+                    value="{{ request('search') }}">
                 <button class="btn btn-primary" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
             </form>
 
             <!-- ACTIONS -->
-            <div class="d-flex gap-2 ms-lg-auto mt-2 mt-lg-0">
-                <button class="btn btn-outline-light btn-sm" id="darkModeToggle">
+            <div class="d-flex gap-2 ms-lg-4 mt-2 mt-lg-0 align-items-center">
+                <button class="btn btn-outline-light btn-sm px-3" id="darkModeToggle">
                     <i class="bi bi-moon-stars"></i>
                 </button>
-                <div class="btn btn-outline-light btn-sm"></div>
-                <!-- <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">Admin</a> -->
             </div>
 
         </div>
