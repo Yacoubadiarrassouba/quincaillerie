@@ -15,7 +15,6 @@
             --text-color: #212529;
         }
 
-        /* Styles Mode Sombre */
         body.dark-theme {
             --bg-color: #121212;
             --card-bg: #1e1e1e;
@@ -44,32 +43,77 @@
         .category-section h3 {
             color: #2c3e50;
         }
+
         .dark-theme .category-section h3 {
             color: #3498db;
         }
+
+        /* ✅ MOBILE OPTIMIZATION */
+        @media (max-width: 576px) {
+            .product-card img {
+                height: 160px !important;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .card-title {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            form {
+                width: 100% !important;
+            }
+        }
     </style>
 </head>
+
 <body>
 
+<!-- NAVBAR RESPONSIVE -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow mb-4">
     <div class="container">
+
         <a class="navbar-brand fw-bold" href="/">QUINCAILLERIE KEÏT</a>
 
-        <form action="/" method="GET" class="d-flex mx-auto col-md-5">
-            <input class="form-control me-2" type="search" name="search" placeholder="Rechercher un outil..." value="{{ request('search') }}">
-            <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
-        </form>
+        <!-- bouton mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        <div class="d-flex gap-2">
-            <button class="btn btn-outline-light btn-sm" id="darkModeToggle">
-                <i class="bi bi-moon-stars"></i>
-            </button>
-            <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">Admin</a>
+        <div class="collapse navbar-collapse" id="navbarContent">
+
+            <!-- SEARCH -->
+            <form action="/" method="GET"
+                  class="d-flex mx-lg-auto my-2 my-lg-0 w-100 w-lg-50">
+                <input class="form-control me-2"
+                       type="search"
+                       name="search"
+                       placeholder="Rechercher un outil..."
+                       value="{{ request('search') }}">
+                <button class="btn btn-primary" type="submit">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+
+            <!-- ACTIONS -->
+            <div class="d-flex gap-2 ms-lg-auto mt-2 mt-lg-0">
+                <button class="btn btn-outline-light btn-sm" id="darkModeToggle">
+                    <i class="bi bi-moon-stars"></i>
+                </button>
+                <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">Admin</a>
+            </div>
+
         </div>
     </div>
 </nav>
 
+<!-- CONTENT -->
 <div class="container py-4">
+
     <h1 class="text-center mb-5 fw-bold">Notre Catalogue</h1>
 
     @if(request('search'))
@@ -81,33 +125,46 @@
 
     @foreach($categories as $category)
         @if($category->products->count() > 0)
+
             <div class="category-section mb-5">
+
                 <h3 class="border-bottom pb-2 mb-4 fw-semibold">
-                    <i class="bi bi-tag-fill me-2 text-primary"></i>{{ $category->name }}
+                    <i class="bi bi-tag-fill me-2 text-primary"></i>
+                    {{ $category->name }}
                 </h3>
 
-                <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+                <!-- GRID RESPONSIVE -->
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 g-lg-4">
+
                     @foreach($category->products as $product)
                         <div class="col">
+
                             <div class="card h-100 shadow-sm border-0 product-card">
-                                <div class="position-relative">
-                                    @if($product->image)
-                                        <img src="{{ asset('storage/products/'.$product->image) }}"
-                                             class="card-img-top p-2"
-                                             alt="{{ $product->name }}"
-                                             style="height: 200px; object-fit: contain;">
-                                    @else
-                                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                            <span class="text-muted small">Sans image</span>
-                                        </div>
-                                    @endif
-                                </div>
+
+                                @if($product->image)
+                                    <img src="{{ asset('storage/products/'.$product->image) }}"
+                                         class="card-img-top p-2"
+                                         alt="{{ $product->name }}"
+                                         style="height: 200px; object-fit: contain;">
+                                @else
+                                    <div class="bg-light d-flex align-items-center justify-content-center"
+                                         style="height: 200px;">
+                                        <span class="text-muted small">Sans image</span>
+                                    </div>
+                                @endif
 
                                 <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title fw-bold mb-1">{{ $product->name }}</h5>
-                                    <p class="card-text text-muted small mb-2 text-truncate">{{ $product->description }}</p>
+
+                                    <h5 class="card-title fw-bold mb-1">
+                                        {{ $product->name }}
+                                    </h5>
+
+                                    <p class="card-text text-muted small mb-2 text-truncate">
+                                        {{ $product->description }}
+                                    </p>
 
                                     <div class="mt-auto">
+
                                         <div class="d-flex flex-wrap gap-1 mb-3">
                                             @foreach($product->prices as $price)
                                                 <span class="badge bg-success fs-6">
@@ -116,28 +173,29 @@
                                             @endforeach
                                         </div>
 
-                                        <a href="https://wa.me/+2250170985456?text=Bonjour, je suis intéressé par l'article : {{ $product->name }}"
+                                        <a href="https://wa.me/+2250170985456?text=Bonjour, je suis intéressé par : {{ $product->name }}"
                                            class="btn btn-outline-success w-100 d-flex align-items-center justify-content-center gap-2"
                                            target="_blank">
                                             <i class="bi bi-whatsapp"></i> Commander
                                         </a>
+
                                     </div>
+
                                 </div>
                             </div>
+
                         </div>
                     @endforeach
+
                 </div>
             </div>
+
         @endif
     @endforeach
 
-    <div class="d-flex justify-content-center mt-5">
-        @if(method_exists($products, 'links'))
-            {{ $products->appends(request()->input())->links('pagination::bootstrap-5') }}
-        @endif
-    </div>
 </div>
 
+<!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
@@ -145,7 +203,6 @@
     const body = document.body;
     const icon = toggleBtn.querySelector('i');
 
-    // Vérifier le choix précédent au chargement
     if (localStorage.getItem('dark-mode') === 'enabled') {
         body.classList.add('dark-theme');
         icon.classList.replace('bi-moon-stars', 'bi-sun');
