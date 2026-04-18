@@ -104,7 +104,7 @@
                 <button class="btn btn-outline-light btn-sm" id="darkModeToggle">
                     <i class="bi bi-moon-stars"></i>
                 </button>
-                <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">Admin</a>
+                <!-- <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">Admin</a> -->
             </div>
 
         </div>
